@@ -1,0 +1,1 @@
+public class ManagerLocator : BaseLocator<ManagerLocator, ManagerLocatable> { }
