@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94072e2a33bb26747a90dfff7a99c431, type: 3}
+  m_Name: ShapeRegistry
+  m_EditorClassIdentifier: 
+  entries:
+  - shape: 0
+    mesh: {fileID: 5005176809694024728, guid: 46dc2cc911406954885bb6e387db50b5, type: 3}
+    meshPosOffset: {x: 0, y: 0, z: 0.5}
+    meshRotOffset: {x: -90, y: 0, z: 180}
+    baseShape:
+    - {x: 0, y: 0}
+  - shape: 1
+    mesh: {fileID: 3810820786208530656, guid: 897734b6c022b9546bca3d43341aafb7, type: 3}
+    meshPosOffset: {x: 0, y: 0, z: 0.5}
+    meshRotOffset: {x: -90, y: 0, z: 180}
+    baseShape:
+    - {x: -1, y: 0}
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
