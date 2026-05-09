@@ -301,6 +301,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 876987961}
   - {fileID: 1885457159}
   - {fileID: 2018269212}
   - {fileID: 1743695478}
@@ -473,6 +474,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &876987960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 876987961}
+  - component: {fileID: 876987962}
+  m_Layer: 0
+  m_Name: BoardBuilder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &876987961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876987960}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 337469531}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &876987962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876987960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f73679f2e247534e8bdac69532b7338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardTransform: {fileID: 1805587746}
+  tilePrefab: {fileID: 1425487418453718437, guid: a7d14846e844c464dab6c2c78914c3b1,
+    type: 3}
+  wallPrefab: {fileID: 8140984219733663186, guid: 8e18e711ea2155445ad2969bc3581021,
+    type: 3}
+  cornerPrefab: {fileID: 5445415790048768389, guid: 62faea77db384284aa0631f939dd3173,
+    type: 3}
 --- !u!1 &1743695477
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,13 +647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f4d6ff9a909a74287f0abe3e9d4f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardTransform: {fileID: 1805587746}
-  tilePrefab: {fileID: 1766407132846534431, guid: a7d14846e844c464dab6c2c78914c3b1,
-    type: 3}
-  wallPrefab: {fileID: 8140984219733663186, guid: 8e18e711ea2155445ad2969bc3581021,
-    type: 3}
-  cornerPrefab: {fileID: 5445415790048768389, guid: 62faea77db384284aa0631f939dd3173,
-    type: 3}
   cellSize: 1
 --- !u!1 &2018269211
 GameObject:
