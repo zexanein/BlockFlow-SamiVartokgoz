@@ -19,7 +19,7 @@ public class BlockActor : MonoBehaviour
         
         var shapeData = blockShapeRegistry.Get(data.ShapeType);
         meshFilter.mesh = shapeData.Mesh;
-        meshRenderer.material.color = StaticMethods.GetColorFromName(data.BlockColor);
+        meshRenderer.sharedMaterial = ColorManager.Palette.GetMaterial(data.BlockColor);
         meshRenderer.transform.localPosition = shapeData.MeshPosOffset;
         meshRenderer.transform.localRotation = Quaternion.Euler(shapeData.MeshRotOffset);
     }

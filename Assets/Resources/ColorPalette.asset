@@ -15,7 +15,13 @@ MonoBehaviour:
   entries:
   - name: red
     color: {r: 0.85, g: 0.39787236, b: 0.30744684, a: 1}
+    material: {fileID: 2100000, guid: 25c0cb676ee107343903004c197e2c7d, type: 2}
   - name: green
     color: {r: 0.33191487, g: 0.65, b: 0.35957444, a: 1}
+    material: {fileID: 2100000, guid: 48e7a21037b43cf4997fc4988fcee4a1, type: 2}
   - name: blue
     color: {r: 0.30744684, g: 0.46117023, b: 0.85, a: 1}
+    material: {fileID: 2100000, guid: e684dd3b1cdeabe43a034a9cec84f710, type: 2}
+  - name: blue
+    color: {r: 1, g: 0.43529412, b: 0.9254902, a: 1}
+    material: {fileID: 2100000, guid: b29b2ec94b1a6e248bfee61287b661de, type: 2}

@@ -5,9 +5,9 @@ public class GrinderData
     public int GrinderID { get; }
     public Vector2Int Position { get; }
     public GrinderSize Size { get; }
-    public string GrinderColor { get; }
+    public int GrinderColor { get; }
 
-    public GrinderData(int grinderID, Vector2Int position, GrinderSize size, string grinderColor)
+    public GrinderData(int grinderID, Vector2Int position, GrinderSize size, int grinderColor)
     {
         GrinderID = grinderID;
         Position = position;

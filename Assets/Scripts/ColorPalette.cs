@@ -9,12 +9,13 @@ public class ColorPalette : ScriptableObject
     [Serializable]
     public struct ColorEntry
     {
-        [SerializeField] private string name;
         [SerializeField] private Color color;
+        [SerializeField] private Material material;
         
-        public string Name => name;
         public Color Color => color;
+        public Material Material => material;
     }
     
-    public Color Get(string colorName) => Array.Find(entries, entry => entry.Name == colorName).Color;
+    public Color GetColor(int id) => entries[id].Color;
+    public Material GetMaterial(int id) => entries[id].Material;
 }

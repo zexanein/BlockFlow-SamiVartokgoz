@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,16 +7,50 @@ public class GrinderManager : ManagerLocatable
 {
     [SerializeField] private GrinderActor grinderActorPrefab;
     [SerializeField] private GrinderMeshRegistry grinderMeshRegistry;
+    [SerializeField] private Material grinderArrowMaterial;
     
     private BoardManager _boardManager;
     private BlockManager _blockManager;
     
     private List<GrinderData> _grinders = new();
+    
+    private Coroutine _grindersTextureAnimCoroutine;
+    private bool _isAnimatingGrindersTexture;
 
     protected override void OnInitialized()
     {
         _boardManager = Locator.GetLocatable<BoardManager>();
         _blockManager = Locator.GetLocatable<BlockManager>();
+        StartGrindersTextureAnim();
+    }
+
+    private void OnDestroy() => StopGrindersTextureAnim();
+
+    private void StartGrindersTextureAnim()
+    {
+        if (_isAnimatingGrindersTexture) return;
+        _grindersTextureAnimCoroutine = StartCoroutine(GrindersTextureAnimCoroutine());
+        _isAnimatingGrindersTexture = true;
+    }
+    
+    private void StopGrindersTextureAnim()
+    {
+        if (!_isAnimatingGrindersTexture) return;
+        StopCoroutine(_grindersTextureAnimCoroutine);
+        _isAnimatingGrindersTexture = false;
+    }
+    
+    private IEnumerator GrindersTextureAnimCoroutine()
+    {
+        var elapsed = 0f;
+        while (true)
+        {
+            var offset = elapsed * 0.5f;
+            grinderArrowMaterial.mainTextureOffset = new Vector2(offset, 0f);
+            elapsed += Time.deltaTime;
+            if (offset > 1f) elapsed -= 2f;
+            yield return null;
+        }
     }
 
     public void SpawnGrinders(List<GrinderData> grinders)

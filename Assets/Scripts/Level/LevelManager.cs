@@ -30,7 +30,7 @@ public class LevelManager : ManagerLocatable
         {
             new(
                 blockID: 0,
-                blockColor: "red",
+                blockColor: 0,
                 shapeType: ShapeType.T,
                 position: Vector2Int.one,
                 constraint: AxisConstraint.None,
@@ -39,7 +39,7 @@ public class LevelManager : ManagerLocatable
             
             new(
                 blockID: 2,
-                blockColor: "red",
+                blockColor: 0,
                 shapeType: ShapeType.T,
                 position: new Vector2Int(1, 5),
                 constraint: AxisConstraint.None,
@@ -48,7 +48,7 @@ public class LevelManager : ManagerLocatable
             
             new(
                 blockID: 1,
-                blockColor: "green",
+                blockColor: 1,
                 shapeType: ShapeType.T,
                 position: Vector2Int.one * 3,
                 constraint: AxisConstraint.None,
@@ -64,14 +64,14 @@ public class LevelManager : ManagerLocatable
             new(
                 grinderID: 0,
                 position: new Vector2Int(2, -1),
-                grinderColor: "green",
+                grinderColor: 1,
                 size: GrinderSize.X1
             ),
             
             new(
                 grinderID: 1,
                 position: new Vector2Int(10, 8),
-                grinderColor: "red",
+                grinderColor: 0,
                 size: GrinderSize.X3
             )
         };

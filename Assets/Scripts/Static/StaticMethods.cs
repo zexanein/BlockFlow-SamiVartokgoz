@@ -3,27 +3,6 @@ using UnityEngine;
 
 public static class StaticMethods
 {
-    private static ColorPalette _colorPalette;
-    private static bool _isColorPaletteLoaded;
-    
-    public static Color GetColorFromName(string colorName)
-    {
-        if (_isColorPaletteLoaded)
-            return _colorPalette.Get(colorName);
-        
-        _colorPalette = Resources.Load<ColorPalette>("ColorPalette");
-            
-        if (_colorPalette == null)
-        {
-            Debug.LogError("No ColorPalette found in Resources!");
-            return Color.white;
-        }
-            
-        _isColorPaletteLoaded = true;
-
-        return _colorPalette.Get(colorName);
-    }
-
     /// <summary>
     /// Rotates the shape by clockwise 90 degree increments
     /// </summary>
