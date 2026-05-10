@@ -5,12 +5,12 @@ public class BlockActor : MonoBehaviour
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
     
-    public void Initialize(BlockData data, BoardManager boardManager, ShapeRegistry shapeRegistry)
+    public void Initialize(BlockData data, BoardManager boardManager, BlockShapeRegistry blockShapeRegistry)
     {
         transform.position = boardManager.GridToWorld(data.Position);
-        transform.rotation = Quaternion.Euler(0f, data.RotationSteps * 90, 0f);
+        transform.rotation = Quaternion.Euler(0f, (int) data.Direction * 90, 0f);
         
-        var shapeData = shapeRegistry.Get(data.ShapeType);
+        var shapeData = blockShapeRegistry.Get(data.ShapeType);
         meshFilter.mesh = shapeData.Mesh;
         meshRenderer.material.color = StaticMethods.GetColorFromName(data.BlockColor);
         meshRenderer.transform.localPosition = shapeData.MeshPosOffset;

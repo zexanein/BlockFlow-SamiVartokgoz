@@ -8,11 +8,16 @@ public class BoardManager : ManagerLocatable
     private int[,] _occupancyMap;
     
     private BlockManager _blockManager;
+    private GrinderManager _grinderManager;
     private BoardBuilder _boardBuilder;
+    
+    public int Width => _width;
+    public int Height => _height;
 
     protected override void OnInitialized()
     {
         _blockManager = Locator.GetLocatable<BlockManager>();
+        _grinderManager = Locator.GetLocatable<GrinderManager>();
         _boardBuilder = Locator.GetLocatable<BoardBuilder>();
     }
 
@@ -28,8 +33,8 @@ public class BoardManager : ManagerLocatable
             RegisterBlock(blockData);
         }
         
-        
         _blockManager.SpawnBlocks(levelData.Blocks);
+        _grinderManager.SpawnGrinders(levelData.Grinders);
         _boardBuilder.Build(levelData, this);
     }
 

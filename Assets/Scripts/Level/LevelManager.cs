@@ -19,15 +19,22 @@ public class LevelManager : ManagerLocatable
 
     private LevelData GetTestLevelData()
     {
-        var testBlocks = new List<BlockData>
+        
+        var levelData = new LevelData(10, 10, GetTestBlocks(), GetTestGrinders());
+        return levelData;
+    }
+
+    private List<BlockData> GetTestBlocks()
+    {
+        return new List<BlockData>
         {
             new(
                 blockID: 0,
                 blockColor: "red",
                 shapeType: ShapeType.T,
                 position: Vector2Int.one,
-                constraint: BlockData.AxisConstraint.None,
-                rotationSteps: 2
+                constraint: AxisConstraint.None,
+                direction: Direction.Right
             ),
             
             new(
@@ -35,12 +42,29 @@ public class LevelManager : ManagerLocatable
                 blockColor: "green",
                 shapeType: ShapeType.T,
                 position: Vector2Int.one * 3,
-                constraint: BlockData.AxisConstraint.None,
-                rotationSteps: 0
-            ),
+                constraint: AxisConstraint.None,
+                direction: Direction.Up
+            )
         };
-        
-        var levelData = new LevelData(10, 10, testBlocks);
-        return levelData;
+    }
+
+    private List<GrinderData> GetTestGrinders()
+    {
+        return new List<GrinderData>
+        {
+            new(
+                grinderID: 0,
+                position: new Vector2Int(2, -1),
+                grinderColor: "green",
+                size: GrinderSize.X1
+            ),
+            
+            new(
+                grinderID: 1,
+                position: new Vector2Int(10, 8),
+                grinderColor: "red",
+                size: GrinderSize.X3
+            )
+        };
     }
 }

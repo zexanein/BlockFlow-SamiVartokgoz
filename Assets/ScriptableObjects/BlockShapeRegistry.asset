@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94072e2a33bb26747a90dfff7a99c431, type: 3}
-  m_Name: ShapeRegistry
+  m_Name: BlockShapeRegistry
   m_EditorClassIdentifier: 
   entries:
   - shape: 0

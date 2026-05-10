@@ -305,8 +305,57 @@ Transform:
   - {fileID: 1885457159}
   - {fileID: 2018269212}
   - {fileID: 1743695478}
+  - {fileID: 399924555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &399924554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 399924555}
+  - component: {fileID: 399924556}
+  m_Layer: 0
+  m_Name: GrinderManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &399924555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399924554}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 337469531}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &399924556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399924554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d8ddf5543530f4e857c8a067d48dc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grinderActorPrefab: {fileID: 7922995389080418964, guid: ef6b92ad97f8a2e458ae275569cdec60,
+    type: 3}
+  grinderMeshRegistry: {fileID: 11400000, guid: 12af4491a6e40cc42a65a055844d2676,
+    type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,9 +618,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceaf47775733ec14eac2747a5f6de876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shapeRegistry: {fileID: 11400000, guid: 47a6a5ac57b9f5c4784d4ebd89cfc790, type: 2}
   blockActorPrefab: {fileID: 1628759560723819832, guid: 31349f604d6c5bc47b22f7b6f16cf61a,
     type: 3}
+  blockShapeRegistry: {fileID: 11400000, guid: 47a6a5ac57b9f5c4784d4ebd89cfc790, type: 2}
 --- !u!1 &1805587745
 GameObject:
   m_ObjectHideFlags: 0

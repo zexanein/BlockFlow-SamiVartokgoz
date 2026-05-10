@@ -7,30 +7,23 @@ public class BlockData
     public int BlockID { get; }
     public string BlockColor { get; }
     public Vector2Int Position { get; }
-    public int RotationSteps { get; }
+    public Direction Direction { get; }
     public ShapeType ShapeType { get; }
     public AxisConstraint Constraint { get; }
 
-    public BlockData(int blockID, string blockColor, Vector2Int position, ShapeType shapeType, AxisConstraint constraint, int rotationSteps)
+    public BlockData(int blockID, string blockColor, Vector2Int position, ShapeType shapeType, AxisConstraint constraint, Direction direction)
     {
         BlockID = blockID;
         BlockColor = blockColor;
         Position = position;
-        RotationSteps = rotationSteps;
+        Direction = direction;
         ShapeType = shapeType;
         Constraint = constraint;
     }
     
-    public Vector2Int[] GetShape(ShapeRegistry registry)
+    public Vector2Int[] GetShape(BlockShapeRegistry registry)
     {
         var baseShape = registry.Get(ShapeType).BaseShape;
-        return StaticMethods.RotateShape(baseShape, RotationSteps);
-    }
-    
-    public enum AxisConstraint
-    {
-        None,
-        Horizontal,
-        Vertical
+        return StaticMethods.RotateShape(baseShape, (int) Direction);
     }
 }

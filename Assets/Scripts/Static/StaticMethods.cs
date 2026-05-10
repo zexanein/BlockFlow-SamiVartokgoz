@@ -3,15 +3,25 @@ using UnityEngine;
 
 public static class StaticMethods
 {
+    private static ColorPalette _colorPalette;
+    private static bool _isColorPaletteLoaded;
+    
     public static Color GetColorFromName(string colorName)
     {
-        return colorName.ToLower() switch
+        if (_isColorPaletteLoaded)
+            return _colorPalette.Get(colorName);
+        
+        _colorPalette = Resources.Load<ColorPalette>("ColorPalette");
+            
+        if (_colorPalette == null)
         {
-            "red" => Color.red,
-            "green" => Color.green,
-            "blue" => Color.blue,
-            _ => Color.white
-        };
+            Debug.LogError("No ColorPalette found in Resources!");
+            return Color.white;
+        }
+            
+        _isColorPaletteLoaded = true;
+
+        return _colorPalette.Get(colorName);
     }
 
     /// <summary>
@@ -31,5 +41,23 @@ public static class StaticMethods
             result[i] = new Vector2Int(result[i].y, -result[i].x);
 
         return result;
+    }
+
+    public static Direction GetGrinderDirection(GrinderData grinderData, int boardWidth, int boardHeight)
+    {
+        if (grinderData.Position.x < 0)
+            return Direction.Right;
+        
+        if (grinderData.Position.x >= boardWidth)
+            return Direction.Left;
+        
+        if (grinderData.Position.y < 0)
+            return Direction.Up;
+        
+        if (grinderData.Position.y >= boardHeight)
+            return Direction.Down;
+
+        Debug.LogError("Grinder is not placed outside the board!");
+        return Direction.Up;
     }
 }

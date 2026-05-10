@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ShapeRegistry : ScriptableObject
+public class BlockShapeRegistry : ScriptableObject
 {
     [SerializeField] private ShapeData[] entries;
     
@@ -23,12 +23,4 @@ public class ShapeRegistry : ScriptableObject
     }
     
     public ShapeData Get(ShapeType type) => Array.Find(entries, entry => entry.Shape == type);
-}
-
-public enum ShapeType
-{
-    CubeS,
-    T,
-    Z,
-    L
 }
