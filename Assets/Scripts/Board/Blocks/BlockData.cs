@@ -6,7 +6,7 @@ public class BlockData
 {
     public int BlockID { get; }
     public string BlockColor { get; }
-    public Vector2Int Position { get; }
+    public Vector2Int Position { get; set; }
     public Direction Direction { get; }
     public ShapeType ShapeType { get; }
     public AxisConstraint Constraint { get; }
@@ -21,7 +21,12 @@ public class BlockData
         Constraint = constraint;
     }
     
-    public Vector2Int[] GetShape(BlockShapeRegistry registry)
+    public Vector2Int[] GetBaseShape(BlockShapeRegistry registry)
+    {
+        return registry.Get(ShapeType).BaseShape;
+    }
+    
+    public Vector2Int[] GetRotatedShape(BlockShapeRegistry registry)
     {
         var baseShape = registry.Get(ShapeType).BaseShape;
         return StaticMethods.RotateShape(baseShape, (int) Direction);

@@ -38,6 +38,15 @@ public class LevelManager : ManagerLocatable
             ),
             
             new(
+                blockID: 2,
+                blockColor: "red",
+                shapeType: ShapeType.T,
+                position: new Vector2Int(1, 5),
+                constraint: AxisConstraint.None,
+                direction: Direction.Right
+            ),
+            
+            new(
                 blockID: 1,
                 blockColor: "green",
                 shapeType: ShapeType.T,

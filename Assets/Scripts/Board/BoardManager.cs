@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class BoardManager : ManagerLocatable
 {
     [SerializeField] private float cellSize = 1f;
+    
     
     private int _width, _height;
     private int[,] _occupancyMap;
@@ -11,6 +13,7 @@ public class BoardManager : ManagerLocatable
     private GrinderManager _grinderManager;
     private BoardBuilder _boardBuilder;
     
+    public float CellSize => cellSize;
     public int Width => _width;
     public int Height => _height;
 
@@ -45,18 +48,50 @@ public class BoardManager : ManagerLocatable
             _occupancyMap[x, y] = -1;
     }
 
-    private void RegisterBlock(BlockData blockData)
+    public void RegisterBlock(BlockData blockData)
     {
-        foreach (var blockCellPosition in _blockManager.GetBlockCellPositions(blockData))
+        foreach (var blockCellPosition in _blockManager.GetBlockCellGridPositions(blockData))
         {
             _occupancyMap[blockCellPosition.x, blockCellPosition.y] = blockData.BlockID;
+        }
+    }
+
+    public void UnregisterBlock(BlockData block)
+    {
+        foreach (var blockCellPosition in _blockManager.GetBlockCellGridPositions(block))
+        {
+            _occupancyMap[blockCellPosition.x, blockCellPosition.y] = -1;
         }
     }
     
     public Vector3 GridToWorld(Vector2Int cell)
     {
+        return GridToWorld(cell.x, cell.y);
+    }
+    
+    public Vector3 GridToWorld(float x, float y)
+    {
         var offsetX = (_width - 1) * cellSize * 0.5f;
         var offsetZ = (_height - 1) * cellSize * 0.5f;
-        return new Vector3(cell.x * cellSize - offsetX, 0f, cell.y * cellSize - offsetZ);
+        return new Vector3(x * cellSize - offsetX, 0f, y * cellSize - offsetZ);
+    }
+    
+    public Vector2Int WorldToGrid(Vector3 worldPosition)
+    {
+        var offsetX = (_width - 1) * cellSize * 0.5f;
+        var offsetZ = (_height - 1) * cellSize * 0.5f;
+        var x = Mathf.RoundToInt((worldPosition.x + offsetX) / cellSize);
+        var y = Mathf.RoundToInt((worldPosition.z + offsetZ) / cellSize);
+        return new Vector2Int(x, y);
+    }
+
+    public bool IsInBounds(int x, int y)
+    {
+        return x >= 0 && x < _width && y >= 0 && y < _height;
+    }
+
+    public bool IsCellOccupied(int x, int y)
+    {
+        return _occupancyMap[x, y] != -1;
     }
 }
