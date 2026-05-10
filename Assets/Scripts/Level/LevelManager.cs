@@ -20,7 +20,7 @@ public class LevelManager : ManagerLocatable
     private LevelData GetTestLevelData()
     {
         
-        var levelData = new LevelData(10, 10, GetTestBlocks(), GetTestGrinders());
+        var levelData = new LevelData(6, 8, GetTestBlocks(), GetTestGrinders());
         return levelData;
     }
 
@@ -70,7 +70,7 @@ public class LevelManager : ManagerLocatable
             
             new(
                 grinderID: 1,
-                position: new Vector2Int(10, 8),
+                position: new Vector2Int(6, 6),
                 grinderColor: 0,
                 size: GrinderSize.X3
             )
