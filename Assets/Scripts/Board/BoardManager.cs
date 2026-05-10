@@ -32,10 +32,11 @@ public class BoardManager : ManagerLocatable
 
         _occupancyMap = new int[_width, _height];
         ClearOccupancyMap();
+
+        _blockManager.SpawnBlocks(levelData.Blocks);
         foreach (var blockData in levelData.Blocks)
             RegisterBlock(blockData);
 
-        _blockManager.SpawnBlocks(levelData.Blocks);
         _grinderManager.SpawnGrinders(levelData.Grinders);
         _boardBuilder.Build(levelData, this);
     }

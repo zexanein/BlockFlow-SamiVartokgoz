@@ -5,8 +5,11 @@ public class BlockManager : ManagerLocatable
 {
     [SerializeField] private BlockActor blockActorPrefab;
     [SerializeField] private BlockShapeRegistry blockShapeRegistry;
-    
+
     private BoardManager _boardManager;
+
+    private readonly Dictionary<int, Vector2Int[]> _rotatedShapeCache = new();
+    private readonly Dictionary<int, Vector2Int[]> _cellPositionsBuffer = new();
 
     protected override void OnInitialized()
     {
@@ -17,16 +20,19 @@ public class BlockManager : ManagerLocatable
     {
         foreach (var blockData in blocks)
         {
+            var baseShape = blockShapeRegistry.Get(blockData.ShapeType).BaseShape;
+            var rotatedShape = StaticMethods.RotateShape(baseShape, (int)blockData.Direction);
+            _rotatedShapeCache[blockData.BlockID] = rotatedShape;
+            _cellPositionsBuffer[blockData.BlockID] = new Vector2Int[rotatedShape.Length];
+
             var blockActor = Instantiate(blockActorPrefab, transform);
             blockActor.Initialize(blockData, _boardManager, blockShapeRegistry);
-            GenerateBoxCollidersForBlock(blockActor, blockData, _boardManager.CellSize);
+            GenerateBoxCollidersForBlock(blockActor, baseShape, _boardManager.CellSize);
         }
     }
 
-    private void GenerateBoxCollidersForBlock(BlockActor actor, BlockData blockData, float cellSize)
+    private void GenerateBoxCollidersForBlock(BlockActor actor, Vector2Int[] shape, float cellSize)
     {
-        var shape = blockShapeRegistry.Get(blockData.ShapeType).BaseShape;
-        
         var visited = new HashSet<int>();
 
         for (var i = 0; i < shape.Length; i++)
@@ -72,25 +78,24 @@ public class BlockManager : ManagerLocatable
     
     public Vector2Int[] GetBlockRotatedShape(BlockData blockData)
     {
-        var baseShape = blockShapeRegistry.Get(blockData.ShapeType).BaseShape;
-        return StaticMethods.RotateShape(baseShape, (int) blockData.Direction);
+        return _rotatedShapeCache[blockData.BlockID];
     }
-    
+
     public Vector2Int[] GetBlockCellGridPositions(BlockData blockData)
     {
-        var baseShapeCells = GetBlockRotatedShape(blockData);
-        var returnValue = new Vector2Int[baseShapeCells.Length];
+        var shape = _rotatedShapeCache[blockData.BlockID];
+        var buffer = _cellPositionsBuffer[blockData.BlockID];
 
-        for (var i = 0; i < baseShapeCells.Length; i++)
-        {
-            returnValue[i] = blockData.Position + baseShapeCells[i];
-        }
-        
-        return returnValue;
+        for (var i = 0; i < shape.Length; i++)
+            buffer[i] = blockData.Position + shape[i];
+
+        return buffer;
     }
 
     public void RemoveBlock(BlockActor blockActor)
     {
+        _rotatedShapeCache.Remove(blockActor.Data.BlockID);
+        _cellPositionsBuffer.Remove(blockActor.Data.BlockID);
         Destroy(blockActor.gameObject);
     }
 }
