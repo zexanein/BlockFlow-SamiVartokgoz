@@ -25,7 +25,8 @@ public class BlockManager : ManagerLocatable
 
     private void GenerateBoxCollidersForBlock(BlockActor actor, BlockData blockData, float cellSize)
     {
-        var shape = blockData.GetBaseShape(blockShapeRegistry);
+        var shape = blockShapeRegistry.Get(blockData.ShapeType).BaseShape;
+        
         var visited = new HashSet<int>();
 
         for (var i = 0; i < shape.Length; i++)
@@ -71,12 +72,13 @@ public class BlockManager : ManagerLocatable
     
     public Vector2Int[] GetBlockRotatedShape(BlockData blockData)
     {
-        return blockData.GetRotatedShape(blockShapeRegistry);
+        var baseShape = blockShapeRegistry.Get(blockData.ShapeType).BaseShape;
+        return StaticMethods.RotateShape(baseShape, (int) blockData.Direction);
     }
     
     public Vector2Int[] GetBlockCellGridPositions(BlockData blockData)
     {
-        var baseShapeCells = blockData.GetRotatedShape(blockShapeRegistry);
+        var baseShapeCells = GetBlockRotatedShape(blockData);
         var returnValue = new Vector2Int[baseShapeCells.Length];
 
         for (var i = 0; i < baseShapeCells.Length; i++)
@@ -85,5 +87,10 @@ public class BlockManager : ManagerLocatable
         }
         
         return returnValue;
+    }
+
+    public void RemoveBlock(BlockActor blockActor)
+    {
+        Destroy(blockActor.gameObject);
     }
 }

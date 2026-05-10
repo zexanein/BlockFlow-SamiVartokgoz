@@ -1,21 +1,22 @@
-using System;
 using UnityEngine;
 
 public class BoardManager : ManagerLocatable
 {
     [SerializeField] private float cellSize = 1f;
-    
-    
+
     private int _width, _height;
     private int[,] _occupancyMap;
-    
+
     private BlockManager _blockManager;
     private GrinderManager _grinderManager;
     private BoardBuilder _boardBuilder;
-    
+
     public float CellSize => cellSize;
     public int Width => _width;
     public int Height => _height;
+
+    private float OffsetX => (_width - 1) * cellSize * 0.5f;
+    private float OffsetZ => (_height - 1) * cellSize * 0.5f;
 
     protected override void OnInitialized()
     {
@@ -28,14 +29,12 @@ public class BoardManager : ManagerLocatable
     {
         _width = levelData.Width;
         _height = levelData.Height;
-        
+
         _occupancyMap = new int[_width, _height];
         ClearOccupancyMap();
         foreach (var blockData in levelData.Blocks)
-        {
             RegisterBlock(blockData);
-        }
-        
+
         _blockManager.SpawnBlocks(levelData.Blocks);
         _grinderManager.SpawnGrinders(levelData.Grinders);
         _boardBuilder.Build(levelData, this);
@@ -50,48 +49,50 @@ public class BoardManager : ManagerLocatable
 
     public void RegisterBlock(BlockData blockData)
     {
-        foreach (var blockCellPosition in _blockManager.GetBlockCellGridPositions(blockData))
-        {
-            _occupancyMap[blockCellPosition.x, blockCellPosition.y] = blockData.BlockID;
-        }
+        foreach (var pos in _blockManager.GetBlockCellGridPositions(blockData))
+            _occupancyMap[pos.x, pos.y] = blockData.BlockID;
     }
 
     public void UnregisterBlock(BlockData block)
     {
-        foreach (var blockCellPosition in _blockManager.GetBlockCellGridPositions(block))
-        {
-            _occupancyMap[blockCellPosition.x, blockCellPosition.y] = -1;
-        }
+        foreach (var pos in _blockManager.GetBlockCellGridPositions(block))
+            _occupancyMap[pos.x, pos.y] = -1;
     }
-    
-    public Vector3 GridToWorld(Vector2Int cell)
-    {
-        return GridToWorld(cell.x, cell.y);
-    }
-    
+
+    public Vector3 GridToWorld(Vector2Int cell) => GridToWorld(cell.x, cell.y);
+
     public Vector3 GridToWorld(float x, float y)
     {
-        var offsetX = (_width - 1) * cellSize * 0.5f;
-        var offsetZ = (_height - 1) * cellSize * 0.5f;
-        return new Vector3(x * cellSize - offsetX, 0f, y * cellSize - offsetZ);
+        return new Vector3(x * cellSize - OffsetX, 0f, y * cellSize - OffsetZ);
     }
-    
+
     public Vector2Int WorldToGrid(Vector3 worldPosition)
     {
-        var offsetX = (_width - 1) * cellSize * 0.5f;
-        var offsetZ = (_height - 1) * cellSize * 0.5f;
-        var x = Mathf.RoundToInt((worldPosition.x + offsetX) / cellSize);
-        var y = Mathf.RoundToInt((worldPosition.z + offsetZ) / cellSize);
-        return new Vector2Int(x, y);
+        var pos = WorldToGridFloat(worldPosition);
+        return new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
     }
 
-    public bool IsInBounds(int x, int y)
+    public Vector2 WorldToGridFloat(Vector3 worldPosition)
     {
-        return x >= 0 && x < _width && y >= 0 && y < _height;
+        return new Vector2(
+            (worldPosition.x + OffsetX) / cellSize,
+            (worldPosition.z + OffsetZ) / cellSize
+        );
     }
 
-    public bool IsCellOccupied(int x, int y)
+    public bool IsInBounds(int x, int y) => x >= 0 && x < _width && y >= 0 && y < _height;
+
+    public bool IsCellOccupied(int x, int y) => _occupancyMap[x, y] != -1;
+
+    public bool IsShapeAtEdge(Vector2Int[] shape, Vector2Int pos)
     {
-        return _occupancyMap[x, y] != -1;
+        foreach (var cell in shape)
+        {
+            var gridPos = pos + cell;
+            if (gridPos.x == 0 || gridPos.x == _width - 1 ||
+                gridPos.y == 0 || gridPos.y == _height - 1)
+                return true;
+        }
+        return false;
     }
 }

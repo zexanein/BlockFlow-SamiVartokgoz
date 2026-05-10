@@ -34,7 +34,7 @@ public class LevelManager : ManagerLocatable
                 shapeType: ShapeType.T,
                 position: Vector2Int.one,
                 constraint: AxisConstraint.None,
-                direction: Direction.Right
+                direction: Direction.Down
             ),
             
             new(
@@ -43,7 +43,7 @@ public class LevelManager : ManagerLocatable
                 shapeType: ShapeType.T,
                 position: new Vector2Int(1, 5),
                 constraint: AxisConstraint.None,
-                direction: Direction.Right
+                direction: Direction.Left
             ),
             
             new(

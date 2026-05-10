@@ -4,6 +4,7 @@ public class MovementManager : ManagerLocatable
 {
     private BoardManager _boardManager;
     private BlockManager _blockManager;
+    private GrinderManager _grinderManager;
     private BlockActor _selectedBlock;
     private Vector3 _dragStartWorld;
     private Vector3 _blockStartWorld;
@@ -21,6 +22,7 @@ public class MovementManager : ManagerLocatable
     {
         _boardManager = Locator.GetLocatable<BoardManager>();
         _blockManager = Locator.GetLocatable<BlockManager>();
+        _grinderManager = Locator.GetLocatable<GrinderManager>();
         _camera = Camera.main;
     }
 
@@ -59,25 +61,38 @@ public class MovementManager : ManagerLocatable
         if (constraint == AxisConstraint.Vertical) mouseDelta.x = 0f;
 
         var desiredWorld = _blockStartWorld + new Vector3(mouseDelta.x, 0f, mouseDelta.z);
-        var resolved = SweepToPosition(_lastResolvedWorld, desiredWorld);
+        _lastResolvedWorld = SweepToPosition(_lastResolvedWorld, desiredWorld);
 
-        _lastResolvedWorld = resolved;
-        
         _selectedBlock.transform.position = new Vector3(
-            resolved.x,
+            _lastResolvedWorld.x,
             _selectedBlock.transform.position.y,
-            resolved.z
+            _lastResolvedWorld.z
         );
+        
+        var snappedGrid = _boardManager.WorldToGrid(_lastResolvedWorld);
+        var shape = _blockManager.GetBlockRotatedShape(_selectedBlock.Data);
+
+        if (!_boardManager.IsShapeAtEdge(shape, snappedGrid)) return;
+
+        var originalPos = _selectedBlock.Data.Position;
+        _selectedBlock.Data.Position = snappedGrid;
+
+        if (_grinderManager.TryExitBlock(_selectedBlock.Data))
+        {
+            _blockManager.RemoveBlock(_selectedBlock);
+            _selectedBlock = null;
+            _isDragging = false;
+            return;
+        }
+
+        _selectedBlock.Data.Position = originalPos;
     }
 
     private void ReleaseBlock()
     {
-        var worldPos = _selectedBlock.transform.position;
-        var snappedGrid = _boardManager.WorldToGrid(worldPos);
-
+        var snappedGrid = _boardManager.WorldToGrid(_selectedBlock.transform.position);
         _selectedBlock.Data.Position = snappedGrid;
         _boardManager.RegisterBlock(_selectedBlock.Data);
-
         _selectedBlock.SnapToGrid();
         _selectedBlock = null;
         _isDragging = false;
@@ -86,8 +101,8 @@ public class MovementManager : ManagerLocatable
     private Vector3 SweepToPosition(Vector3 from, Vector3 to)
     {
         var shape = _blockManager.GetBlockRotatedShape(_selectedBlock.Data);
-        var fromGrid = WorldToGridFloat(from);
-        var toGrid = WorldToGridFloat(to);
+        var fromGrid = _boardManager.WorldToGridFloat(from);
+        var toGrid = _boardManager.WorldToGridFloat(to);
 
         var resolvedX = SweepAxis(fromGrid.x, toGrid.x - fromGrid.x, fromGrid.y, shape, true);
         var resolvedY = SweepAxis(fromGrid.y, toGrid.y - fromGrid.y, resolvedX, shape, false);
@@ -165,18 +180,6 @@ public class MovementManager : ManagerLocatable
         }
 
         return false;
-    }
-
-    private Vector2 WorldToGridFloat(Vector3 worldPos)
-    {
-        var cellSize = _boardManager.CellSize;
-        var offsetX = (_boardManager.Width - 1) * cellSize * 0.5f;
-        var offsetZ = (_boardManager.Height - 1) * cellSize * 0.5f;
-        
-        return new Vector2(
-            (worldPos.x + offsetX) / cellSize,
-            (worldPos.z + offsetZ) / cellSize
-        );
     }
 
     private Vector3 GetMouseWorldPosition()

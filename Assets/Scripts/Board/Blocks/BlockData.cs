@@ -20,15 +20,4 @@ public class BlockData
         ShapeType = shapeType;
         Constraint = constraint;
     }
-    
-    public Vector2Int[] GetBaseShape(BlockShapeRegistry registry)
-    {
-        return registry.Get(ShapeType).BaseShape;
-    }
-    
-    public Vector2Int[] GetRotatedShape(BlockShapeRegistry registry)
-    {
-        var baseShape = registry.Get(ShapeType).BaseShape;
-        return StaticMethods.RotateShape(baseShape, (int) Direction);
-    }
 }
