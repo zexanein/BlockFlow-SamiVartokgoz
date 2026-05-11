@@ -10,6 +10,7 @@ public class BlockActor : MonoBehaviour
     [Header("References")]
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private GameObject canvas;
     
     [Header("Animation Settings")]
     [SerializeField] private float snapDuration = 0.1f;
@@ -18,6 +19,10 @@ public class BlockActor : MonoBehaviour
     [Header("Ice Effect")]
     [SerializeField] private MeshFilter iceEffectMeshFilter;
     [SerializeField] private TMP_Text iceEffectText;
+    
+    [Header("Axis Constraints")]
+    [SerializeField] private GameObject xConstraintVisual;
+    [SerializeField] private GameObject yConstraintVisual;
     
     private readonly List<Collider> _colliders = new();
 
@@ -35,16 +40,23 @@ public class BlockActor : MonoBehaviour
         _boardManager = boardManager;
         _blockManager = blockManager;
 
+        var yRotation = (int)data.Direction * 90f;
         transform.position = boardManager.GridToWorld(data.Position);
-        transform.rotation = Quaternion.Euler(0f, (int)data.Direction * 90, 0f);
+        transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
 
         var shapeData = blockShapeRegistry.Get(data.ShapeType);
         meshFilter.mesh = shapeData.Mesh;
         meshRenderer.sharedMaterial = ColorManager.Palette.GetMaterial(data.BlockColor);
         meshRenderer.transform.localPosition = shapeData.MeshPosOffset;
-        meshRenderer.transform.localRotation = Quaternion.Euler(shapeData.MeshRotOffset);
+        
+        var targetPos = shapeData.CenterVisuals ? meshRenderer.bounds.center : transform.position;
+        canvas.transform.position = targetPos.WithY(1.1f);
+        canvas.transform.localRotation = Quaternion.Euler(90f, 0f, yRotation);
 
         if (data.IceEffectDuration > 0) ApplyIceVisuals();
+        
+        xConstraintVisual.gameObject.SetActive(data.Constraint == AxisConstraint.Horizontal);
+        yConstraintVisual.gameObject.SetActive(data.Constraint == AxisConstraint.Vertical);
         
         _blockManager.OnBlockCleared += OnBlockCleared;
     }
@@ -66,12 +78,14 @@ public class BlockActor : MonoBehaviour
         iceEffectMeshFilter.mesh = meshFilter.mesh;
         iceEffectMeshFilter.transform.localPosition = meshRenderer.transform.localPosition;
         iceEffectMeshFilter.transform.localRotation = meshRenderer.transform.localRotation;
+        iceEffectText.gameObject.SetActive(true);
         UpdateIceEffectText();
     }
 
     private void RemoveIceVisuals()
     {
         iceEffectMeshFilter.gameObject.SetActive(false);
+        iceEffectText.gameObject.SetActive(false);
     }
 
     private void UpdateIceEffectText()

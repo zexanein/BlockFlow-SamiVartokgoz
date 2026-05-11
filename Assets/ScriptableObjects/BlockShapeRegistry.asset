@@ -17,12 +17,14 @@ MonoBehaviour:
     mesh: {fileID: 5005176809694024728, guid: 46dc2cc911406954885bb6e387db50b5, type: 3}
     meshPosOffset: {x: 0, y: 0, z: 0}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 0
     baseShape:
     - {x: 0, y: 0}
   - shape: 1
     mesh: {fileID: 9194754219980210264, guid: 26f6611a1f197c44597f6c8961cc0dd5, type: 3}
     meshPosOffset: {x: 0.5, y: 0, z: 0.5}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 1
     baseShape:
     - {x: 0, y: 1}
     - {x: 0, y: 0}
@@ -32,6 +34,7 @@ MonoBehaviour:
     mesh: {fileID: 7757648521726380381, guid: 9e02f07c972387d45ac3c553eb577dd6, type: 3}
     meshPosOffset: {x: 0.5, y: 0, z: 1}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 0
     baseShape:
     - {x: 0, y: 0}
     - {x: 0, y: 1}
@@ -41,6 +44,7 @@ MonoBehaviour:
     mesh: {fileID: -7146107245578257843, guid: 75639388fd874d448928605f910ab640, type: 3}
     meshPosOffset: {x: -0.5, y: 0, z: 1}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 0
     baseShape:
     - {x: 0, y: 0}
     - {x: -1, y: 0}
@@ -50,6 +54,7 @@ MonoBehaviour:
     mesh: {fileID: -1350644686481176163, guid: b0aada2a48ed58e4299a2a1cc694e66b, type: 3}
     meshPosOffset: {x: 0.5, y: 0, z: 0.5}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 0
     baseShape:
     - {x: 0, y: 0}
     - {x: 1, y: 0}
@@ -58,6 +63,7 @@ MonoBehaviour:
     mesh: {fileID: -2395218139105998227, guid: 00786d82fe77e0f4e8875c0360d503a6, type: 3}
     meshPosOffset: {x: 0, y: 0, z: 0}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 0
     baseShape:
     - {x: -1, y: 0}
     - {x: 0, y: 0}
@@ -66,6 +72,7 @@ MonoBehaviour:
     mesh: {fileID: 8780203307725268399, guid: a291fdd3294260049bc5e0c6bc828387, type: 3}
     meshPosOffset: {x: 0.5, y: 0, z: 0}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 1
     baseShape:
     - {x: 0, y: 0}
     - {x: 1, y: 0}
@@ -73,6 +80,7 @@ MonoBehaviour:
     mesh: {fileID: -4751071231881052056, guid: fbf51280c5a79774a8df568bd874d8df, type: 3}
     meshPosOffset: {x: 0, y: 0, z: 0}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 0
     baseShape:
     - {x: -1, y: 0}
     - {x: 0, y: 1}
@@ -83,6 +91,7 @@ MonoBehaviour:
     mesh: {fileID: 3810820786208530656, guid: 897734b6c022b9546bca3d43341aafb7, type: 3}
     meshPosOffset: {x: 0, y: 0, z: 0.5}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 0
     baseShape:
     - {x: -1, y: 0}
     - {x: 0, y: 0}
@@ -92,6 +101,7 @@ MonoBehaviour:
     mesh: {fileID: 7639736607735135954, guid: 354051b4c742b5547889c7466028f999, type: 3}
     meshPosOffset: {x: 0.5, y: 0, z: 0}
     meshRotOffset: {x: -90, y: 0, z: 180}
+    centerVisuals: 1
     baseShape:
     - {x: 0, y: 1}
     - {x: 0, y: 0}

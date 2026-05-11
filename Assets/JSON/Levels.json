@@ -3,16 +3,16 @@
     {
       "gridWidth": 7,
       "gridHeight": 10,
-      "timeLimit": 60,
+      "timeLimit": 240,
       "blocks": [
         {
           "id": 0,
           "color": 0,
           "shapeType": 1,
-          "position": { "x": 1, "y": 1 },
-          "constraint": 1,
+          "position": { "x": 1, "y": 2 },
+          "constraint": 2,
           "direction": 1,
-          "iceEffectDuration" : 3
+          "iceEffectDuration" : 0
         },
         {
           "id": 2,
@@ -28,16 +28,16 @@
           "color": 1,
           "shapeType": 0,
           "position": { "x": 3, "y": 3 },
-          "constraint": 0,
+          "constraint": 1,
           "direction": 0,
-          "iceEffectDuration" : 2
+          "iceEffectDuration" : 0
         },
         {
           "id": 3,
           "color": 1,
-          "shapeType": 1,
+          "shapeType": 9,
           "position": { "x": 5, "y": 4 },
-          "constraint": 1,
+          "constraint": 0,
           "direction": 0,
           "iceEffectDuration" : 0
         }

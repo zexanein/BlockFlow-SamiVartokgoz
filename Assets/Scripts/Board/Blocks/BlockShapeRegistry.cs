@@ -22,14 +22,14 @@ public class BlockShapeRegistry : ScriptableObject
         [SerializeField] private ShapeType shape;
         [SerializeField] private Mesh mesh;
         [SerializeField] private Vector3 meshPosOffset;
-        [SerializeField] private Vector3 meshRotOffset;
+        [SerializeField] private bool centerVisuals;
         [SerializeField] private Vector2Int[] baseShape;
 
         public ShapeType Shape => shape;
         public Mesh Mesh => mesh;
         public Vector3 MeshPosOffset => meshPosOffset;
-        public Vector3 MeshRotOffset => meshRotOffset;
         public Vector2Int[] BaseShape => baseShape;
+        public bool CenterVisuals => centerVisuals;
     }
 
     public ShapeData Get(ShapeType type) => _lookup[type];
