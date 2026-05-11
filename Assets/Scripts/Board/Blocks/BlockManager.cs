@@ -112,6 +112,7 @@ public class BlockManager : ManagerLocatable
         _rotatedShapeCache.Remove(blockActor.Data.BlockID);
         _cellPositionsBuffer.Remove(blockActor.Data.BlockID);
         _activeActors.Remove(blockActor);
+        if (_icedBlockActors.Contains(blockActor)) _icedBlockActors.Remove(blockActor);
         Destroy(blockActor.gameObject);
         
         foreach (var icedBlockActor in _icedBlockActors)
