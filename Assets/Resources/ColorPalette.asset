@@ -13,15 +13,23 @@ MonoBehaviour:
   m_Name: ColorPalette
   m_EditorClassIdentifier: 
   entries:
-  - name: red
-    color: {r: 0.85, g: 0.39787236, b: 0.30744684, a: 1}
+  - color: {r: 0.9490196, g: 0.42352942, b: 0.32156864, a: 1}
     material: {fileID: 2100000, guid: 25c0cb676ee107343903004c197e2c7d, type: 2}
-  - name: green
-    color: {r: 0.33191487, g: 0.65, b: 0.35957444, a: 1}
+  - color: {r: 0.33191487, g: 0.65, b: 0.35957444, a: 1}
     material: {fileID: 2100000, guid: 48e7a21037b43cf4997fc4988fcee4a1, type: 2}
-  - name: blue
-    color: {r: 0.30744684, g: 0.46117023, b: 0.85, a: 1}
+  - color: {r: 0.30744684, g: 0.46117023, b: 0.85, a: 1}
     material: {fileID: 2100000, guid: e684dd3b1cdeabe43a034a9cec84f710, type: 2}
-  - name: blue
-    color: {r: 1, g: 0.43529412, b: 0.9254902, a: 1}
+  - color: {r: 1, g: 0.43529412, b: 0.9254902, a: 1}
     material: {fileID: 2100000, guid: b29b2ec94b1a6e248bfee61287b661de, type: 2}
+  - color: {r: 1, g: 0.8980392, b: 0.29411766, a: 1}
+    material: {fileID: 2100000, guid: 48fe46b8b57c76e4d806dc11526ad823, type: 2}
+  - color: {r: 0.2627451, g: 1, b: 0.7176471, a: 1}
+    material: {fileID: 2100000, guid: c2dcb7eb0a2a3a1498d0392359094935, type: 2}
+  - color: {r: 0.8117647, g: 0.2627451, b: 1, a: 1}
+    material: {fileID: 2100000, guid: 2f1829ac17203ff4488727a61569bd37, type: 2}
+  - color: {r: 1, g: 0.57254905, b: 0.011764706, a: 1}
+    material: {fileID: 2100000, guid: b55d66744f0014148a258e1247366c91, type: 2}
+  - color: {r: 0.21568628, g: 1, b: 0.011764706, a: 1}
+    material: {fileID: 2100000, guid: a63f00e919bed5d4585b1b3859abb277, type: 2}
+  - color: {r: 0.9411765, g: 0.1254902, b: 0.14901961, a: 1}
+    material: {fileID: 2100000, guid: 5df2f027569b6e04ca8a3d6a61f0f5b1, type: 2}

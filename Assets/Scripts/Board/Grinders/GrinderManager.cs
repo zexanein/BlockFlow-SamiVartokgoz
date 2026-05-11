@@ -52,7 +52,7 @@ public class GrinderManager : ManagerLocatable
         while (true)
         {
             var offset = -elapsed * 0.5f;
-            grinderArrowMaterial.mainTextureOffset = new Vector2(0f, offset);
+            grinderArrowMaterial.mainTextureOffset = new Vector2(0.5f, offset);
             elapsed += Time.deltaTime * grinderArrowAnimSpeed;
             if (offset > 1f) elapsed -= 2f;
             yield return null;
@@ -135,5 +135,12 @@ public class GrinderManager : ManagerLocatable
         if (grinder.Position.x >= _boardManager.Width) return Direction.Right;
         if (grinder.Position.y < 0) return Direction.Down;
         return Direction.Up;
+    }
+
+    public void Clear()
+    {
+        foreach (Transform child in transform)
+            Destroy(child.gameObject);
+        _grinders.Clear();
     }
 }

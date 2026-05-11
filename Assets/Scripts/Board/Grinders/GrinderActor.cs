@@ -13,7 +13,17 @@ public class GrinderActor : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, (int)grinderDirection * 90, 0f);
 
         meshFilter.mesh = meshRegistry.Get(data.Size).Mesh;
-        var localX = -0.5f * (int)data.Size;
+
+        float localX;
+        if ((int)data.Size % 2 == 0)
+        {
+            localX = grinderDirection is Direction.Right or Direction.Down ? -0.5f : -1.5f;
+        }
+        else
+        {
+            localX = -0.5f * (int)data.Size;
+        }
+
         meshRenderer.transform.localPosition = meshRenderer.transform.localPosition.WithX(localX);
         meshRenderer.sharedMaterial = ColorManager.Palette.GetMaterial(data.GrinderColor);
     }

@@ -77,4 +77,12 @@ public class BoardBuilder : ManagerLocatable
         wall.transform.position = _boardManager.GridToWorld(cellPosition);
         wall.transform.rotation = Quaternion.Euler(0f, rotationY, 0f);
     }
+
+    public void Clear()
+    {
+        foreach (Transform child in _wallParent)
+            Destroy(child.gameObject);
+        foreach (Transform child in _tileParent)
+            Destroy(child.gameObject);
+    }
 }

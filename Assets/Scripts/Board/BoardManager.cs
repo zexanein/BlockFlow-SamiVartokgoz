@@ -30,6 +30,8 @@ public class BoardManager : ManagerLocatable
 
     public void CreateBoard(LevelData levelData)
     {
+        ClearBoard();
+        
         _width = levelData.Width;
         _height = levelData.Height;
 
@@ -49,6 +51,16 @@ public class BoardManager : ManagerLocatable
         _grinderManager.SpawnGrinders(levelData.Grinders);
         _boardBuilder.Build(levelData, this);
     }
+    
+    public void ClearBoard()
+    {
+        _blockManager.Clear();
+        _grinderManager.Clear();
+        _boardBuilder.Clear();
+    
+        _occupancyMap = null;
+        _inactiveCells.Clear();
+    }
 
     private void ClearOccupancyMap()
     {
@@ -60,7 +72,9 @@ public class BoardManager : ManagerLocatable
     public void RegisterBlock(BlockData blockData)
     {
         foreach (var pos in _blockManager.GetBlockCellGridPositions(blockData))
+        {
             _occupancyMap[pos.x, pos.y] = blockData.BlockID;
+        }
     }
 
     public void UnregisterBlock(BlockData block)

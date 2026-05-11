@@ -15,7 +15,14 @@ public class ColorPalette : ScriptableObject
         public Color Color => color;
         public Material Material => material;
     }
+
+    public Color GetColor(int id)
+    {
+        if (id < 0 || id >= entries.Length)
+            return  Color.black;
+        
+        return entries[id].Color;   
+    }
     
-    public Color GetColor(int id) => entries[id].Color;
     public Material GetMaterial(int id) => entries[id].Material;
 }

@@ -29,6 +29,7 @@ public class LevelEditorWindow : EditorWindow
     private float _cellDrawSize = 30f;
 
     private BlockShapeRegistry _shapeRegistry;
+    private ColorPalette _colorPalette;
 
     private LevelDataListWrapper _loadedWrapper;
     private string _loadedPath;
@@ -42,6 +43,7 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnEnable()
     {
+        _colorPalette = AssetDatabase.LoadAssetAtPath<ColorPalette>("Assets/Resources/ColorPalette.asset");
         _shapeRegistry = AssetDatabase.LoadAssetAtPath<BlockShapeRegistry>("Assets/ScriptableObjects/BlockShapeRegistry.asset");
     }
 
@@ -143,7 +145,7 @@ public class LevelEditorWindow : EditorWindow
         if (_selectedTool == 2)
         {
             _grinderColor = EditorGUILayout.IntField("Color", _grinderColor);
-            _grinderSize = EditorGUILayout.IntSlider("Size", _grinderSize, 1, 5);
+            _grinderSize = EditorGUILayout.IntSlider("Size", _grinderSize, 1, 3);
         }
 
         EditorGUILayout.Space();
@@ -180,7 +182,7 @@ public class LevelEditorWindow : EditorWindow
 
                 Color color;
                 if (isInactive) color = new Color(0.15f, 0.15f, 0.15f);
-                else if (blockHere != null) color = GetBlockColor(blockHere.color);
+                else if (blockHere != null) color = GetColor(blockHere.color);
                 else color = new Color(0.4f, 0.4f, 0.4f);
 
                 EditorGUI.DrawRect(rect, color);
@@ -240,7 +242,7 @@ public class LevelEditorWindow : EditorWindow
     {
         _grinderCellMap.TryGetValue(cell, out var grinderHere);
 
-        var color = grinderHere != null ? GetGrinderColor(grinderHere.color) : new Color(0.25f, 0.25f, 0.25f);
+        var color = grinderHere != null ? GetColor(grinderHere.color) : new Color(0.25f, 0.25f, 0.25f);
         EditorGUI.DrawRect(rect, color);
 
         if (grinderHere != null)
@@ -508,23 +510,6 @@ public class LevelEditorWindow : EditorWindow
         };
     }
 
-    private Color GetBlockColor(int colorIndex) => colorIndex switch
-    {
-        0 => new Color(0.9f, 0.3f, 0.3f),
-        1 => new Color(0.3f, 0.8f, 0.3f),
-        2 => new Color(0.3f, 0.3f, 0.9f),
-        3 => new Color(1f, 0.6f, 0.1f),
-        4 => new Color(0.8f, 0.3f, 0.8f),
-        _ => Color.white
-    };
-
-    private Color GetGrinderColor(int colorIndex) => colorIndex switch
-    {
-        0 => new Color(1f, 0.5f, 0.5f),
-        1 => new Color(0.5f, 1f, 0.5f),
-        2 => new Color(0.5f, 0.5f, 1f),
-        3 => new Color(1f, 0.8f, 0.3f),
-        _ => Color.yellow
-    };
+    private Color GetColor(int colorIndex) => _colorPalette.GetColor(colorIndex);
 }
 #endif

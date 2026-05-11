@@ -12,9 +12,9 @@ public class BlockManager : ManagerLocatable
     private readonly Dictionary<int, Vector2Int[]> _rotatedShapeCache = new();
     private readonly Dictionary<int, Vector2Int[]> _cellPositionsBuffer = new();
     
-    private readonly List<BlockData> _activeBlocks = new();
+    private readonly List<BlockActor> _activeActors = new();
     private readonly List<BlockActor> _icedBlockActors = new();
-    public int ActiveBlockCount => _activeBlocks.Count;
+    public int ActiveBlockCount => _activeActors.Count;
     
     public event Action OnBlockCleared;
 
@@ -35,7 +35,7 @@ public class BlockManager : ManagerLocatable
             var blockActor = Instantiate(blockActorPrefab, transform);
             blockActor.Initialize(blockData, _boardManager, this, blockShapeRegistry);
             GenerateBoxCollidersForBlock(blockActor, baseShape, _boardManager.CellSize);
-            _activeBlocks.Add(blockData);
+            _activeActors.Add(blockActor);
             if (blockData.IceEffectDuration > 0) _icedBlockActors.Add(blockActor);
         }
     }
@@ -107,7 +107,7 @@ public class BlockManager : ManagerLocatable
     {
         _rotatedShapeCache.Remove(blockActor.Data.BlockID);
         _cellPositionsBuffer.Remove(blockActor.Data.BlockID);
-        _activeBlocks.Remove(blockActor.Data);
+        _activeActors.Remove(blockActor);
         Destroy(blockActor.gameObject);
         
         foreach (var icedBlockActor in _icedBlockActors)
@@ -117,5 +117,12 @@ public class BlockManager : ManagerLocatable
         
         OnBlockCleared?.Invoke();
         
+    }
+
+    public void Clear()
+    {
+        foreach (var block in _activeActors)
+            Destroy(block);
+        _activeActors.Clear();
     }
 }
