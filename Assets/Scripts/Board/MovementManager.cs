@@ -41,6 +41,7 @@ public class MovementManager : ManagerLocatable
         if (!hit.collider.CompareTag(blockActorTag)) return;
         var block = hit.collider.GetComponentInParent<BlockActor>();
         if (block == null) return;
+        if (block.Data.IceEffectDuration > 0) return;
 
         _selectedBlock = block;
         _dragStartWorld = GetMouseWorldPosition();

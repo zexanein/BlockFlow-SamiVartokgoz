@@ -2,14 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class BlockActor : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
+    
+    [Header("Animation Settings")]
     [SerializeField] private float snapDuration = 0.1f;
     [SerializeField] private float exitDurationPerCell = 0.25f;
+    
+    [Header("Ice Effect")]
+    [SerializeField] private MeshFilter iceEffectMeshFilter;
+    [SerializeField] private TMP_Text iceEffectText;
     
     private readonly List<Collider> _colliders = new();
 
@@ -19,11 +27,13 @@ public class BlockActor : MonoBehaviour
 
     public BlockData Data { get; private set; }
     private BoardManager _boardManager;
+    private BlockManager _blockManager;
 
-    public void Initialize(BlockData data, BoardManager boardManager, BlockShapeRegistry blockShapeRegistry)
+    public void Initialize(BlockData data, BoardManager boardManager, BlockManager blockManager, BlockShapeRegistry blockShapeRegistry)
     {
         Data = data;
         _boardManager = boardManager;
+        _blockManager = blockManager;
 
         transform.position = boardManager.GridToWorld(data.Position);
         transform.rotation = Quaternion.Euler(0f, (int)data.Direction * 90, 0f);
@@ -33,6 +43,41 @@ public class BlockActor : MonoBehaviour
         meshRenderer.sharedMaterial = ColorManager.Palette.GetMaterial(data.BlockColor);
         meshRenderer.transform.localPosition = shapeData.MeshPosOffset;
         meshRenderer.transform.localRotation = Quaternion.Euler(shapeData.MeshRotOffset);
+
+        if (data.IceEffectDuration > 0) ApplyIceVisuals();
+        
+        _blockManager.OnBlockCleared += OnBlockCleared;
+    }
+    
+    private void  OnDestroy()
+    {
+        _blockManager.OnBlockCleared -= OnBlockCleared;
+    }
+    
+    private void OnBlockCleared()
+    {
+        if (Data.IceEffectDuration > 0) UpdateIceEffectText();
+        else RemoveIceVisuals();
+    }
+
+    private void ApplyIceVisuals()
+    {
+        iceEffectMeshFilter.gameObject.SetActive(true);
+        iceEffectMeshFilter.mesh = meshFilter.mesh;
+        iceEffectMeshFilter.transform.localPosition = meshRenderer.transform.localPosition;
+        iceEffectMeshFilter.transform.localRotation = meshRenderer.transform.localRotation;
+        UpdateIceEffectText();
+    }
+
+    private void RemoveIceVisuals()
+    {
+        iceEffectMeshFilter.gameObject.SetActive(false);
+    }
+
+    private void UpdateIceEffectText()
+    {
+        if (iceEffectText == null) return;
+        iceEffectText.text = Data.IceEffectDuration.ToString();
     }
 
     public void SnapToGrid()

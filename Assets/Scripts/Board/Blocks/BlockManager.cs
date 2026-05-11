@@ -13,6 +13,7 @@ public class BlockManager : ManagerLocatable
     private readonly Dictionary<int, Vector2Int[]> _cellPositionsBuffer = new();
     
     private readonly List<BlockData> _activeBlocks = new();
+    private readonly List<BlockActor> _icedBlockActors = new();
     public int ActiveBlockCount => _activeBlocks.Count;
     
     public event Action OnBlockCleared;
@@ -32,9 +33,10 @@ public class BlockManager : ManagerLocatable
             _cellPositionsBuffer[blockData.BlockID] = new Vector2Int[rotatedShape.Length];
 
             var blockActor = Instantiate(blockActorPrefab, transform);
-            blockActor.Initialize(blockData, _boardManager, blockShapeRegistry);
+            blockActor.Initialize(blockData, _boardManager, this, blockShapeRegistry);
             GenerateBoxCollidersForBlock(blockActor, baseShape, _boardManager.CellSize);
             _activeBlocks.Add(blockData);
+            if (blockData.IceEffectDuration > 0) _icedBlockActors.Add(blockActor);
         }
     }
 
@@ -107,6 +109,12 @@ public class BlockManager : ManagerLocatable
         _cellPositionsBuffer.Remove(blockActor.Data.BlockID);
         _activeBlocks.Remove(blockActor.Data);
         Destroy(blockActor.gameObject);
+        
+        foreach (var icedBlockActor in _icedBlockActors)
+        {
+            icedBlockActor.Data.IceEffectDuration--;
+        }
+        
         OnBlockCleared?.Invoke();
         
     }

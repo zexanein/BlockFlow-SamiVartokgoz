@@ -9,6 +9,7 @@ public class SerializedBlockData
     public Vector2Int position;
     public int constraint;
     public int direction;
+    public int iceEffectDuration;
 
     public BlockData ToBlockData()
     {
@@ -18,7 +19,8 @@ public class SerializedBlockData
             position: position,
             shapeType: (ShapeType)shapeType,
             constraint: (AxisConstraint)constraint,
-            direction: (Direction)direction
+            direction: (Direction)direction,
+            iceEffectDuration: iceEffectDuration
         );
     }
 }

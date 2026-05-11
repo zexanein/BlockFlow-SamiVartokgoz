@@ -10,8 +10,9 @@ public class BlockData
     public Direction Direction { get; }
     public ShapeType ShapeType { get; }
     public AxisConstraint Constraint { get; }
+    public int IceEffectDuration { get; set; } 
 
-    public BlockData(int blockID, int blockColor, Vector2Int position, ShapeType shapeType, AxisConstraint constraint, Direction direction)
+    public BlockData(int blockID, int blockColor, Vector2Int position, ShapeType shapeType, AxisConstraint constraint, Direction direction, int iceEffectDuration)
     {
         BlockID = blockID;
         BlockColor = blockColor;
@@ -19,5 +20,6 @@ public class BlockData
         Direction = direction;
         ShapeType = shapeType;
         Constraint = constraint;
+        IceEffectDuration = iceEffectDuration;
     }
 }
