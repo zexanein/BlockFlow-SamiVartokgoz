@@ -10,17 +10,17 @@
           "color": 0,
           "shapeType": 1,
           "position": { "x": 1, "y": 1 },
-          "constraint": 0,
+          "constraint": 1,
           "direction": 1,
           "iceEffectDuration" : 3
         },
         {
           "id": 2,
           "color": 0,
-          "shapeType": 0,
-          "position": { "x": 1, "y": 5 },
+          "shapeType": 2,
+          "position": { "x": 2, "y": 5 },
           "constraint": 0,
-          "direction": 3,
+          "direction": 0,
           "iceEffectDuration" : 0
         },
         {
@@ -36,8 +36,8 @@
           "id": 3,
           "color": 1,
           "shapeType": 1,
-          "position": { "x": 4, "y": 4 },
-          "constraint": 0,
+          "position": { "x": 5, "y": 4 },
+          "constraint": 1,
           "direction": 0,
           "iceEffectDuration" : 0
         }
