@@ -1,9 +1,12 @@
 using System;
+using UnityEngine;
 
 public class LevelManager : ManagerLocatable
 {
     private BoardManager _boardManager;
     private SerializationManager _serializationManager;
+    private CameraManager _cameraManager;
+    
     private int _currentLevelIndex;
     
     public event Action<int> OnLevelLoaded;
@@ -12,6 +15,7 @@ public class LevelManager : ManagerLocatable
     {
         _boardManager = Locator.GetLocatable<BoardManager>();
         _serializationManager = Locator.GetLocatable<SerializationManager>();
+        _cameraManager = Locator.GetLocatable<CameraManager>();
     }
 
     public void LoadLevel(int index)
@@ -20,6 +24,7 @@ public class LevelManager : ManagerLocatable
         var levelData = _serializationManager.GetLevel(index);
         if (levelData == null) return;
         _boardManager.CreateBoard(levelData);
+        _cameraManager.FitCamera(levelData.Width, levelData.Height, _boardManager.CellSize);
         OnLevelLoaded?.Invoke(index);
     }
 

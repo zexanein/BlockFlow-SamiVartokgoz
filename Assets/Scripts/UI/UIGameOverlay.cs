@@ -22,8 +22,11 @@ public class UIGameOverlay : UIWindowLocatable
 
     private void OnDestroy()
     {
-        _gameManager.OnTimerUpdated -= OnTimerUpdated;
-        _levelManager.OnLevelLoaded -= OnLevelLoaded;
+        if (_gameManager != null)
+            _gameManager.OnTimerUpdated -= OnTimerUpdated;
+        
+        if (_levelManager != null)
+            _levelManager.OnLevelLoaded -= OnLevelLoaded;
     }
 
     private void OnTimerUpdated(float time)
