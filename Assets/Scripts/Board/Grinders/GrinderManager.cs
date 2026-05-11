@@ -8,6 +8,7 @@ public class GrinderManager : ManagerLocatable
     [SerializeField] private GrinderActor grinderActorPrefab;
     [SerializeField] private GrinderMeshRegistry grinderMeshRegistry;
     [SerializeField] private Material grinderArrowMaterial;
+    [SerializeField] private float grinderArrowAnimSpeed = 3f;
     
     private BoardManager _boardManager;
     private BlockManager _blockManager;
@@ -24,7 +25,12 @@ public class GrinderManager : ManagerLocatable
         StartGrindersTextureAnim();
     }
 
-    private void OnDestroy() => StopGrindersTextureAnim();
+
+    private void OnDestroy()
+    {
+        StopGrindersTextureAnim();
+        grinderArrowMaterial.mainTextureOffset = Vector2.zero;
+    }
 
     private void StartGrindersTextureAnim()
     {
@@ -45,9 +51,9 @@ public class GrinderManager : ManagerLocatable
         var elapsed = 0f;
         while (true)
         {
-            var offset = elapsed * 0.5f;
-            grinderArrowMaterial.mainTextureOffset = new Vector2(offset, 0f);
-            elapsed += Time.deltaTime;
+            var offset = -elapsed * 0.5f;
+            grinderArrowMaterial.mainTextureOffset = new Vector2(0f, offset);
+            elapsed += Time.deltaTime * grinderArrowAnimSpeed;
             if (offset > 1f) elapsed -= 2f;
             yield return null;
         }
@@ -62,7 +68,7 @@ public class GrinderManager : ManagerLocatable
             _grinders.Add(grinderData);
         }
     }
-    public bool TryGrindBlock(BlockData block)
+    public Direction? TryGrindBlock(BlockData block)
     {
         var cells = _blockManager.GetBlockCellGridPositions(block);
 
@@ -73,11 +79,11 @@ public class GrinderManager : ManagerLocatable
             var direction = GetBlockExitDirection(grinder);
             var exitCells = GetGrinderCells(grinder);
 
-            if (!BlockContactsGrinder(cells, exitCells, DirectionToVector(direction))) continue;
-            if (BlockFitsGrinder(cells, exitCells, direction)) return true;
+            if (!BlockContactsGrinder(cells, exitCells, direction.ToVector())) continue;
+            if (BlockFitsGrinder(cells, exitCells, direction)) return direction;
         }
 
-        return false;
+        return null;
     }
 
     private bool BlockContactsGrinder(Vector2Int[] blockCells, Vector2Int[] exitCells, Vector2Int dirVec)
@@ -111,7 +117,7 @@ public class GrinderManager : ManagerLocatable
     private Vector2Int[] GetGrinderCells(GrinderData grinder)
     {
         var direction = GetBlockExitDirection(grinder);
-        var dirVec = DirectionToVector(direction);
+        var dirVec = direction.ToVector();
         var parallel = new Vector2Int(Mathf.Abs(dirVec.y), Mathf.Abs(dirVec.x));
 
         var size = (int)grinder.Size;
@@ -130,13 +136,4 @@ public class GrinderManager : ManagerLocatable
         if (grinder.Position.y < 0) return Direction.Down;
         return Direction.Up;
     }
-
-    private Vector2Int DirectionToVector(Direction dir) => dir switch
-    {
-        Direction.Left => Vector2Int.left,
-        Direction.Right => Vector2Int.right,
-        Direction.Down => Vector2Int.down,
-        Direction.Up => Vector2Int.up,
-        _ => Vector2Int.zero
-    };
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,11 @@ public class BlockManager : ManagerLocatable
 
     private readonly Dictionary<int, Vector2Int[]> _rotatedShapeCache = new();
     private readonly Dictionary<int, Vector2Int[]> _cellPositionsBuffer = new();
+    
+    private readonly List<BlockData> _activeBlocks = new();
+    public int ActiveBlockCount => _activeBlocks.Count;
+    
+    public event Action OnBlockCleared;
 
     protected override void OnInitialized()
     {
@@ -28,6 +34,7 @@ public class BlockManager : ManagerLocatable
             var blockActor = Instantiate(blockActorPrefab, transform);
             blockActor.Initialize(blockData, _boardManager, blockShapeRegistry);
             GenerateBoxCollidersForBlock(blockActor, baseShape, _boardManager.CellSize);
+            _activeBlocks.Add(blockData);
         }
     }
 
@@ -73,6 +80,8 @@ public class BlockManager : ManagerLocatable
                 cellSize,
                 cellSize
             );
+            
+            actor.RegisterCollider(box);
         }
     }
     
@@ -96,6 +105,9 @@ public class BlockManager : ManagerLocatable
     {
         _rotatedShapeCache.Remove(blockActor.Data.BlockID);
         _cellPositionsBuffer.Remove(blockActor.Data.BlockID);
+        _activeBlocks.Remove(blockActor.Data);
         Destroy(blockActor.gameObject);
+        OnBlockCleared?.Invoke();
+        
     }
 }

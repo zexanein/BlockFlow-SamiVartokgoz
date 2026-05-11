@@ -77,11 +77,13 @@ public class MovementManager : ManagerLocatable
         var originalPos = _selectedBlock.Data.Position;
         _selectedBlock.Data.Position = snappedGrid;
 
-        if (_grinderManager.TryGrindBlock(_selectedBlock.Data))
+        var exitDirection = _grinderManager.TryGrindBlock(_selectedBlock.Data);
+        if (exitDirection.HasValue)
         {
-            _blockManager.RemoveBlock(_selectedBlock);
+            var blockToRemove = _selectedBlock;
             _selectedBlock = null;
             _isDragging = false;
+            blockToRemove.PlayExitAnimation(shape, exitDirection.Value, () => _blockManager.RemoveBlock(blockToRemove));
             return;
         }
 

@@ -1,79 +1,41 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class LevelManager : ManagerLocatable
 {
     private BoardManager _boardManager;
+    private SerializationManager _serializationManager;
+    private int _currentLevelIndex;
     
+    public event Action<int> OnLevelLoaded;
+
     protected override void OnInitialized()
     {
         _boardManager = Locator.GetLocatable<BoardManager>();
+        _serializationManager = Locator.GetLocatable<SerializationManager>();
     }
 
-    private void Start()
+    public void LoadLevel(int index)
     {
-        _boardManager.CreateBoard(GetTestLevelData());
+        _currentLevelIndex = index;
+        var levelData = _serializationManager.GetLevel(index);
+        if (levelData == null) return;
+        _boardManager.CreateBoard(levelData);
+        OnLevelLoaded?.Invoke(index);
     }
 
-    private LevelData GetTestLevelData()
+    public void LoadNextLevel()
     {
-        
-        var levelData = new LevelData(6, 8, GetTestBlocks(), GetTestGrinders());
-        return levelData;
+        LoadLevel(_currentLevelIndex + 1);
     }
 
-    private List<BlockData> GetTestBlocks()
+    public void RestartLevel()
     {
-        return new List<BlockData>
-        {
-            new(
-                blockID: 0,
-                blockColor: 0,
-                shapeType: ShapeType.T,
-                position: Vector2Int.one,
-                constraint: AxisConstraint.None,
-                direction: Direction.Down
-            ),
-            
-            new(
-                blockID: 2,
-                blockColor: 0,
-                shapeType: ShapeType.T,
-                position: new Vector2Int(1, 5),
-                constraint: AxisConstraint.None,
-                direction: Direction.Left
-            ),
-            
-            new(
-                blockID: 1,
-                blockColor: 1,
-                shapeType: ShapeType.T,
-                position: Vector2Int.one * 3,
-                constraint: AxisConstraint.None,
-                direction: Direction.Up
-            )
-        };
+        LoadLevel(_currentLevelIndex);
     }
-
-    private List<GrinderData> GetTestGrinders()
+    
+    public float GetLevelTimeLimit(int levelIndex)
     {
-        return new List<GrinderData>
-        {
-            new(
-                grinderID: 0,
-                position: new Vector2Int(2, -1),
-                grinderColor: 1,
-                size: GrinderSize.X1
-            ),
-            
-            new(
-                grinderID: 1,
-                position: new Vector2Int(6, 6),
-                grinderColor: 0,
-                size: GrinderSize.X3
-            )
-        };
+        var levelData = _serializationManager.GetLevel(_currentLevelIndex);
+        return levelData?.TimeLimit ?? 0f;
     }
 }

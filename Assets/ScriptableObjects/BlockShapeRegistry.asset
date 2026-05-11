@@ -15,7 +15,7 @@ MonoBehaviour:
   entries:
   - shape: 0
     mesh: {fileID: 5005176809694024728, guid: 46dc2cc911406954885bb6e387db50b5, type: 3}
-    meshPosOffset: {x: 0, y: 0, z: 0.5}
+    meshPosOffset: {x: 0, y: 0, z: 0}
     meshRotOffset: {x: -90, y: 0, z: 180}
     baseShape:
     - {x: 0, y: 0}
