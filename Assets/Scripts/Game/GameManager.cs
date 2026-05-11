@@ -52,7 +52,7 @@ public class GameManager : ManagerLocatable
 
     public void StartGame()
     {
-        _currentLevelIndex = 4;
+        _currentLevelIndex = 0;
         PlayCurrentLevel();
     }
 
