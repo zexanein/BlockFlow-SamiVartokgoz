@@ -9,6 +9,7 @@ public class BoardBuilder : ManagerLocatable
     
     [Header("Prefabs")]
     [SerializeField] private Transform tilePrefab;
+    [SerializeField] private Transform interiorWallPrefab;
     [SerializeField] private Transform wallPrefab;
     [SerializeField] private Transform cornerPrefab;
     
@@ -27,22 +28,30 @@ public class BoardBuilder : ManagerLocatable
     public void Build(LevelData levelData, BoardManager boardManager)
     {
         _boardManager = boardManager;
-        SpawnTiles(levelData.Width, levelData.Height);
-        SpawnWalls(levelData.Width, levelData.Height);
+        SpawnInterior(levelData.Width, levelData.Height);
+        SpawnFrame(levelData.Width, levelData.Height);
     }
 
-    private void SpawnTiles(int width, int height)
+    private void SpawnInterior(int width, int height)
     {
         for (var x = 0; x < width; x++)
         for (var y = 0; y < height; y++)
         {
+            if (!_boardManager.IsCellActive(new Vector2Int(x, y)))
+            {
+                var wall = Instantiate(interiorWallPrefab, _wallParent);
+                wall.name = $"InteriorWall({x},{y})";
+                wall.transform.localPosition = _boardManager.GridToWorld(new Vector2Int(x, y)).WithY(-0.5f);
+                continue;
+            }
+            
             var tile = Instantiate(tilePrefab, _tileParent);
             tile.name = $"({x},{y})";
             tile.transform.localPosition = _boardManager.GridToWorld(new Vector2Int(x, y));
         }
     }
 
-    private void SpawnWalls(int width, int height)
+    private void SpawnFrame(int width, int height)
     {
         for (var x = 0; x < width; x++)
         {

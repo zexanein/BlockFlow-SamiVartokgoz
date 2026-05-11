@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class SerializedLevelData
@@ -8,6 +9,7 @@ public class SerializedLevelData
     public float timeLimit;
     public List<SerializedBlockData> blocks = new();
     public List<SerializedGrinderData> grinders = new();
+    public List<Vector2Int> inactiveCells = new();
 
     public LevelData ToLevelData()
     {
@@ -16,7 +18,8 @@ public class SerializedLevelData
             gridHeight,
             timeLimit,
             blocks.ConvertAll(b => b.ToBlockData()),
-            grinders.ConvertAll(g => g.ToGrinderData())
+            grinders.ConvertAll(g => g.ToGrinderData()),
+            inactiveCells
         );
     }
 }

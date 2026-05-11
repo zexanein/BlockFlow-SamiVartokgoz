@@ -3,6 +3,12 @@
     {
       "gridWidth": 7,
       "gridHeight": 10,
+      "inactiveCells": [
+        {"x": 0, "y": 3}, {"x": 0, "y": 4},
+        {"x": 1, "y": 3}, {"x": 1, "y": 4},
+        {"x": 4, "y": 3}, {"x": 4, "y": 4},
+        {"x": 5, "y": 3}
+        ],
       "timeLimit": 240,
       "blocks": [
         {

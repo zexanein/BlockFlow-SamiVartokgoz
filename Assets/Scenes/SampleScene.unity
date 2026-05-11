@@ -2447,6 +2447,8 @@ MonoBehaviour:
   boardTransform: {fileID: 1805587746}
   tilePrefab: {fileID: 1425487418453718437, guid: a7d14846e844c464dab6c2c78914c3b1,
     type: 3}
+  interiorWallPrefab: {fileID: 97816778549779847, guid: 4cb160a33f8af6c41ac1e2ed2f560ffd,
+    type: 3}
   wallPrefab: {fileID: 8140984219733663186, guid: 8e18e711ea2155445ad2969bc3581021,
     type: 3}
   cornerPrefab: {fileID: 5445415790048768389, guid: 62faea77db384284aa0631f939dd3173,

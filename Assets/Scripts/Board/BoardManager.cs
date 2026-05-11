@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardManager : ManagerLocatable
@@ -17,6 +18,8 @@ public class BoardManager : ManagerLocatable
 
     private float OffsetX => (_width - 1) * cellSize * 0.5f;
     private float OffsetZ => (_height - 1) * cellSize * 0.5f;
+    
+    private HashSet<Vector2Int> _inactiveCells = new();
 
     protected override void OnInitialized()
     {
@@ -31,6 +34,12 @@ public class BoardManager : ManagerLocatable
         _height = levelData.Height;
 
         _occupancyMap = new int[_width, _height];
+        
+        _inactiveCells.Clear();
+        if (levelData.InactiveCells != null)
+            foreach (var cell in levelData.InactiveCells)
+                _inactiveCells.Add(cell);
+        
         ClearOccupancyMap();
 
         _blockManager.SpawnBlocks(levelData.Blocks);
@@ -83,7 +92,9 @@ public class BoardManager : ManagerLocatable
 
     public bool IsInBounds(int x, int y) => x >= 0 && x < _width && y >= 0 && y < _height;
 
-    public bool IsCellOccupied(int x, int y) => _occupancyMap[x, y] != -1;
+    public bool IsCellOccupied(int x, int y) => !IsCellActive(new Vector2Int(x, y)) || _occupancyMap[x, y] != -1;
+    
+    public bool IsCellActive(Vector2Int cell) => IsInBounds(cell.x, cell.y) && !_inactiveCells.Contains(cell);
 
     public bool IsShapeAtEdge(Vector2Int[] shape, Vector2Int pos)
     {
