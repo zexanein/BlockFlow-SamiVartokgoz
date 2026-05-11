@@ -5,6 +5,8 @@ public class GameManager : ManagerLocatable
 {
     private LevelManager _levelManager;
     private BlockManager _blockManager;
+    private AudioManager _audioManager;
+    
     private int _currentLevelIndex;
     private float _timer;
     private bool _isPlaying;
@@ -19,6 +21,7 @@ public class GameManager : ManagerLocatable
     {
         _levelManager = Locator.GetLocatable<LevelManager>();
         _blockManager = Locator.GetLocatable<BlockManager>();
+        _audioManager = Locator.GetLocatable<AudioManager>();
 
         _blockManager.OnBlockCleared += OnBlockCleared;
     }
@@ -41,6 +44,7 @@ public class GameManager : ManagerLocatable
         OnTimerUpdated?.Invoke(_timer);
 
         if (_timer > 0f) return;
+        _audioManager.PlaySfx("LevelFailed");
         _isPlaying = false;
         State = GameState.LevelFailed;
         OnFail?.Invoke();
@@ -48,7 +52,7 @@ public class GameManager : ManagerLocatable
 
     public void StartGame()
     {
-        _currentLevelIndex = 0;
+        _currentLevelIndex = 4;
         PlayCurrentLevel();
     }
 
@@ -64,6 +68,7 @@ public class GameManager : ManagerLocatable
     {
         if (_blockManager.ActiveBlockCount > 0) return;
 
+        _audioManager.PlaySfx("LevelComplete");
         _isPlaying = false;
         State = GameState.LevelComplete;
         OnWin?.Invoke();

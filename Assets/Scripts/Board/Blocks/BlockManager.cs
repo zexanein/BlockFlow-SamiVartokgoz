@@ -8,6 +8,8 @@ public class BlockManager : ManagerLocatable
     [SerializeField] private BlockShapeRegistry blockShapeRegistry;
 
     private BoardManager _boardManager;
+    private AudioManager _audioManager;
+    private ParticleManager _particleManager;
 
     private readonly Dictionary<int, Vector2Int[]> _rotatedShapeCache = new();
     private readonly Dictionary<int, Vector2Int[]> _cellPositionsBuffer = new();
@@ -21,6 +23,8 @@ public class BlockManager : ManagerLocatable
     protected override void OnInitialized()
     {
         _boardManager = Locator.GetLocatable<BoardManager>();
+        _audioManager = Locator.GetLocatable<AudioManager>();
+        _particleManager = Locator.GetLocatable<ParticleManager>();
     }
 
     public void SpawnBlocks(List<BlockData> blocks)
@@ -113,6 +117,12 @@ public class BlockManager : ManagerLocatable
         foreach (var icedBlockActor in _icedBlockActors)
         {
             icedBlockActor.Data.IceEffectDuration--;
+            _particleManager.PlayIceRevealParticle(icedBlockActor.transform.position.WithY(2f));
+            
+            if (icedBlockActor.Data.IceEffectDuration <= 0)
+            {
+                _audioManager.PlaySfx("IceReveal");
+            }
         }
         
         OnBlockCleared?.Invoke();

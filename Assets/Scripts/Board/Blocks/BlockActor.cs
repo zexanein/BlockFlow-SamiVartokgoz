@@ -61,7 +61,7 @@ public class BlockActor : MonoBehaviour
         _blockManager.OnBlockCleared += OnBlockCleared;
     }
     
-    private void  OnDestroy()
+    private void OnDestroy()
     {
         _blockManager.OnBlockCleared -= OnBlockCleared;
     }

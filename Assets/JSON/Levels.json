@@ -502,7 +502,7 @@
         {
             "gridWidth": 7,
             "gridHeight": 10,
-            "timeLimit": 60.0,
+            "timeLimit": 240.0,
             "blocks": [
                 {
                     "id": 0,

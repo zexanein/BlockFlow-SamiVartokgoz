@@ -5,6 +5,8 @@ public class MovementManager : ManagerLocatable
     private BoardManager _boardManager;
     private BlockManager _blockManager;
     private GrinderManager _grinderManager;
+    private AudioManager _audioManager;
+    
     private BlockActor _selectedBlock;
     private Vector3 _dragStartWorld;
     private Vector3 _blockStartWorld;
@@ -23,6 +25,7 @@ public class MovementManager : ManagerLocatable
         _boardManager = Locator.GetLocatable<BoardManager>();
         _blockManager = Locator.GetLocatable<BlockManager>();
         _grinderManager = Locator.GetLocatable<GrinderManager>();
+        _audioManager = Locator.GetLocatable<AudioManager>();
         _camera = Camera.main;
     }
 
@@ -42,6 +45,8 @@ public class MovementManager : ManagerLocatable
         var block = hit.collider.GetComponentInParent<BlockActor>();
         if (block == null) return;
         if (block.Data.IceEffectDuration > 0) return;
+        
+        _audioManager.PlaySfx("Grab");
 
         _selectedBlock = block;
         _dragStartWorld = GetMouseWorldPosition();
@@ -84,6 +89,7 @@ public class MovementManager : ManagerLocatable
             var blockToRemove = _selectedBlock;
             _selectedBlock = null;
             _isDragging = false;
+            _audioManager.PlaySfx("Grinder");
             blockToRemove.PlayExitAnimation(shape, exitDirection.Value, () => _blockManager.RemoveBlock(blockToRemove));
             return;
         }
@@ -99,6 +105,7 @@ public class MovementManager : ManagerLocatable
         _selectedBlock.SnapToGrid();
         _selectedBlock = null;
         _isDragging = false;
+        _audioManager.PlaySfx("Release");
     }
 
     private Vector3 SweepToPosition(Vector3 from, Vector3 to)
